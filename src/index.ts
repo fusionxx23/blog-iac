@@ -8,7 +8,7 @@ import sharp from "sharp";
 
 const s3Client = new S3Client({});
 
-export const lambdaHandler = async (
+export const handler = async (
   event: S3Event,
   _: Context,
   callback: Callback,
