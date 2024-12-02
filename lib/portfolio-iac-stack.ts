@@ -13,7 +13,7 @@ export class PortfolioIacStack extends cdk.Stack {
     super(scope, id, props);
     const config = getConfig();
 
-    const bucket = new s3.Bucket(this, "DestinationBucket", {
+    const destinationBucket = new s3.Bucket(this, "DestinationBucket", {
       bucketName: config.DEST_BUCKET_NAME,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       accessControl: s3.BucketAccessControl.PRIVATE,
@@ -44,7 +44,7 @@ export class PortfolioIacStack extends cdk.Stack {
     });
     new Distribution(this, "BlogImageCache", {
       defaultBehavior: {
-        origin: S3BucketOrigin.withOriginAccessControl(bucket),
+        origin: S3BucketOrigin.withOriginAccessControl(destinationBucket),
       },
     });
 
