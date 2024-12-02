@@ -32,6 +32,12 @@ export class PortfolioIacStack extends cdk.Stack {
       entry: "./src/index.ts",
       runtime: lambda.Runtime.NODEJS_18_X,
       architecture: lambda.Architecture.X86_64,
+      // Sharp is os and architecture dependent
+      // Ensure correct version is installed
+      bundling: {
+        nodeModules: ["sharp"],
+        forceDockerBundling: true,
+      },
       environment: {
         DEST_BUCKET: config.DEST_BUCKET_NAME,
       },
