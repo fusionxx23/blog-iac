@@ -23,7 +23,7 @@ export class PortfolioIacStack extends cdk.Stack {
     });
 
     const uploadBucket = new s3.Bucket(this, "uploadBucket", {
-      bucketName: "tarp-blog-upload-images",
+      bucketName: config.UPLOAD_BUCKET_NAME,
       autoDeleteObjects: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
