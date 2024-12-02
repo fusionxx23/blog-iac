@@ -42,7 +42,9 @@ export class PortfolioIacStack extends cdk.Stack {
         DEST_BUCKET: config.DEST_BUCKET_NAME,
       },
     });
+    uploadBucket.grantRead(resizeImageLambda);
     destinationBucket.grantWrite(resizeImageLambda);
+
     new Distribution(this, "BlogImageCache", {
       defaultBehavior: {
         origin: S3BucketOrigin.withOriginAccessControl(destinationBucket),
