@@ -27,11 +27,13 @@ export class PortfolioIacStack extends cdk.Stack {
       autoDeleteObjects: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
+
     const resizeImageLambda = new NodejsFunction(this, "ResizeImages", {
       handler: "handler",
       entry: "./src/index.ts",
       runtime: lambda.Runtime.NODEJS_18_X,
       architecture: lambda.Architecture.X86_64,
+      timeout: cdk.Duration.seconds(12),
       // Sharp is os and architecture dependent
       // Ensure correct version is installed
       bundling: {
