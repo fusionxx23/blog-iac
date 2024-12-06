@@ -36,17 +36,23 @@ export const handler = async (
     try {
       const image = await objectData.Body?.transformToByteArray();
       // resize image
-      const outputBuffer150 = await sharp(image).resize(150).toBuffer();
+      const outputBuffer150 = await sharp(image)
+        .resize(150)
+        .webp({ quality: 75 })
+        .toBuffer();
 
-      const outputBuffer800 = await sharp(image).resize(800).toBuffer();
+      const outputBuffer800 = await sharp(image)
+        .resize(800)
+        .webp({ quality: 75 })
+        .toBuffer();
       // store new image in the destination bucket
 
       const keyId = objectKey.split(".")[0];
-      const ext = objectKey.split(".")[1];
+      // const ext = objectKey.split(".")[1];
       await s3Client.send(
         new PutObjectCommand({
           Bucket: destBucket,
-          Key: `${keyId}_150x.${ext}`,
+          Key: `${keyId}_150x.webp`,
           Body: outputBuffer150,
           ContentType: objectData.ContentType,
         }),
@@ -55,7 +61,7 @@ export const handler = async (
       await s3Client.send(
         new PutObjectCommand({
           Bucket: destBucket,
-          Key: `${keyId}_800x.${ext}`,
+          Key: `${keyId}_800x.webp`,
           Body: outputBuffer800,
           ContentType: objectData.ContentType,
         }),
