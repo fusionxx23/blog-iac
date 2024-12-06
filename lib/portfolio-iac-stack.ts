@@ -45,6 +45,7 @@ export class PortfolioIacStack extends cdk.Stack {
       },
     });
     uploadBucket.grantRead(resizeImageLambda);
+    uploadBucket.grantDelete(resizeImageLambda);
     destinationBucket.grantWrite(resizeImageLambda);
 
     new Distribution(this, "BlogImageCache", {
