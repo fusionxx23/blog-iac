@@ -3,6 +3,8 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteBucketCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import sharp from "sharp";
 
@@ -15,11 +17,11 @@ export const handler = async (
 ): Promise<void> => {
   console.log("S3 Event received:", JSON.stringify(event));
   const destBucket = process.env.DEST_BUCKET;
-  console.log(destBucket);
   try {
     // Extract bucket name and object key from the event
     const record = event.Records[0];
     const bucketName = record.s3.bucket.name;
+    // Grab file name
     const objectKey = decodeURIComponent(
       record.s3.object.key.replace(/\+/g, " "),
     );
@@ -66,7 +68,13 @@ export const handler = async (
           ContentType: objectData.ContentType,
         }),
       );
-
+      // Delete image after processing
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: event.Records[0].s3.bucket.name,
+          Key: objectKey,
+        }),
+      );
       callback(null, `Successfully uploaded object: ${objectKey}`);
     } catch (error) {
       console.log(error);
