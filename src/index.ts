@@ -40,13 +40,10 @@ export const handler = async (
       // resize image
       const outputBuffer150 = await sharp(image)
         .resize(150)
-        .webp({ quality: 75 })
+        .webp({ quality: 90 })
         .toBuffer();
 
-      const outputBuffer800 = await sharp(image)
-        .resize(800)
-        .webp({ quality: 75 })
-        .toBuffer();
+      const outputBuffer800 = await sharp(image).resize(800).webp().toBuffer();
       // store new image in the destination bucket
 
       const keyId = objectKey.split(".")[0];
