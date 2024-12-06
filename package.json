@@ -1,7 +1,6 @@
 {
   "name": "portfolio-iac",
   "version": "0.1.0",
-  "type": "module",
   "bin": {
     "portfolio-iac": "bin/portfolio-iac.js"
   },
